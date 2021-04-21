@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: none;
+}
+
+input, select {
+    display: block;
+    /* margin-bottom: 12px; */
+}
+
+.sub-header {
+    margin-top: -20px;
+    font-size: 0.9rem;
+    color: #888;
+}

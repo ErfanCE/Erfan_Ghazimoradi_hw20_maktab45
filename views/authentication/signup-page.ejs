@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/icons/css/all.min.css">
+    <link rel="stylesheet" href="/icons/css/brands.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Signup Page</title>
+</head>
+<body>
+    <!-- navigation -->
+    <%- include('../partial/navigation.ejs') %>
+
+    <h3>Sign Up Form</h3>
+
+    <!-- Signup Form -->
+    <form action="/authentication/signup" method="POST" id="signupForm">
+        <input type="text" name="firstname" placeholder="Firstname">
+        <input type="text" name="lastname" placeholder="Lastname">
+        <input type="text" name="username" placeholder="Username">
+        <input type="text" name="password" placeholder="Password">
+        <select name="gender">
+            <option value="" selected disabled hidden>Gender</option> 
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="unset">Rather not say</option>
+        </select>
+        <input type="text" name="phoneNumber" placeholder="Phone Number">
+
+        <button type="submit">Sign Up</button>
+		
+        <p>Already have an account? <a href="/authentication/login">login</a></p>
+    </form>
+
+    <% if (signupResult) { %>
+        <ul>
+            <% signupResult.forEach(err => { %>
+                <li> <%= err %> </li>
+            <% }) %>
+        </ul>
+    <% } %>
+    
+    <!-- scripts -->
+    <script src="/javascripts/jquery-3.5.1.min.js"></script>
+    <script src="/javascripts/main.js"></script>
+</body>
+</html>

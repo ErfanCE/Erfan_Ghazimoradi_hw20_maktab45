@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/modal.css">
+
+    <title>user Profile</title>
+</head>
+<body>
+    <div id="modal-container">
+        <div class="modal-background">
+            <div class="modal">
+                <!-- alert -->
+                <button class="close-btn">&#10005;</button>
+
+                <!-- update form -->
+                <%- include('../partial/update-form.ejs') %> 
+            </div>
+        </div>
+    </div>
+
+
+    <div class="content">
+        <%- include('../partial/navigation.ejs') %>
+
+        <p class="alter-result">Profile Updated</p>
+    
+        <h2><%= blogger.username %></h2>
+        <p class="sub-header"><%= blogger.firstname %> <%= blogger.lastname %> personal account</p>
+
+        <ul class="blogger-info">
+            <li><b>First name:</b> <%= blogger.firstname %> </li>
+            <li><b>Last name:</b> <%= blogger.lastname %> </li>
+            <li><b>Username:</b> <%= blogger.username %> </li>
+
+            <% if (blogger.gender === 'unset') { %>
+                <li><b>Gender:</b> Rather not say </li>
+            <% } else { %>
+                <li><b>Gender:</b> <%= blogger.gender %>  </li>
+            <% } %> 
+            
+            <li><b>Phone number:</b> <%= blogger.phoneNumber %> </li>
+            <li><b>Role:</b> <%= blogger.role %> </li>
+            <li><b>Created at:</b> <%= blogger.createdAt %> </li>
+        </ul>
+
+        <button id="two" class="button setButton">Edit Profile</button>
+        <button id="deleteAccount" class="button setButton red">Delete Account</button>
+        <a href="/authentication/logout">Logout</a>
+    </div>
+
+    <script src="/javascripts/jquery-3.5.1.min.js"></script>
+    <script src="/javascripts/modal.js"></script>
+    <script src="/javascripts/update-form.js"></script>
+</body>
+</html

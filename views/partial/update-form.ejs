@@ -1,0 +1,45 @@
+<form action="/account" method="PATCH" id="updateForm" spellcheck="false" autocomplete="off">
+    <div class="column">
+        <label for="firstname">First name</label>
+        <label for="lastname">Last name</label>
+    </div>
+    <div class="column">
+        <input type="text" id="firstname" name="firstname" value="<%= blogger.firstname %>">
+
+        <input type="text" id="lastname" name="lastname" value="<%= blogger.lastname %>">
+    </div>
+    <div class="column">
+        <p class="update-error firstname-error">Firstname required.</p>
+
+        <p class="update-error lastname-error">Lastname required.</p>
+    </div>
+
+
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" value="<%= blogger.username %>">
+    <p class="update-error username-error">Username required.</p>
+
+    <label for="gender">Gender</label>
+    <select name="gender" id="gender">
+        <% if (blogger.gender === 'male') { %>
+            <option value="male" selected>Male</option>
+            <option value="female">Female</option>
+            <option value="unset">Rather not say</option>
+        <% } else if (blogger.gender === 'female') { %>
+            <option value="female" selected>Female</option>
+            <option value="male">Male</option>
+            <option value="unset">Rather not say</option>
+        <% } else { %>
+            <option value="unset" selected>Rather not say</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+        <% } %>
+    </select>
+    <p class="update-error gender-error">Gender required.</p>
+
+    <label for="phoneNumber">Phone number</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" value="<%= blogger.phoneNumber %>">
+    <p class="update-error phoneNumber-error">Phone number required.</p>
+
+    <button type="submit">Update</button>
+</form>
