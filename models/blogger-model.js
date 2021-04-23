@@ -47,7 +47,8 @@ const BloggerSchema = new mongoose.Schema({
         enum: ['male', 'female', 'unset']
     },
     avatar: {
-        type: String
+        type: String,
+        default: 'default-avatar.png'
     },
     phoneNumber: {
         type: String,

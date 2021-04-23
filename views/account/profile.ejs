@@ -27,7 +27,10 @@
         <%- include('../partial/navigation.ejs') %>
 
         <p class="alter-result">Profile Updated</p>
-    
+
+        <img src="/images/avatars/<%= blogger.avatar %>" alt="profile-avatar" class="profile-avatar">
+
+
         <h2><%= blogger.username %></h2>
         <p class="sub-header"><%= blogger.firstname %> <%= blogger.lastname %> personal account</p>
 
@@ -39,7 +42,7 @@
             <% if (blogger.gender === 'unset') { %>
                 <li><b>Gender:</b> Rather not say </li>
             <% } else { %>
-                <li><b>Gender:</b> <%= blogger.gender %>  </li>
+                <li><b>Gender:</b> <%= blogger.gender %> </li>
             <% } %> 
             
             <li><b>Phone number:</b> <%= blogger.phoneNumber %> </li>
@@ -47,13 +50,28 @@
             <li><b>Created at:</b> <%= blogger.createdAt %> </li>
         </ul>
 
+        <div class="avatar-panel">
+            <form action="/" enctype="multipart/form-data" id="avatarForm">
+                <input type="file" name="avatar" id="avatar">
+
+                <button type="submit" class="button setButton">Save Avatar</button>
+            </form>
+
+            <button id="avatarRemove" class="button setButton red">Remove Avatar</button>
+
+            <p class="file-error">choosen avatar size must be less than 1MB.</p>
+        </div>
+
+
         <button id="two" class="button setButton">Edit Profile</button>
         <button id="deleteAccount" class="button setButton red">Delete Account</button>
-        <a href="/authentication/logout">Logout</a>
+        <a href="/authentication/logout" class="linker">Logout</a>
     </div>
 
     <script src="/javascripts/jquery-3.5.1.min.js"></script>
     <script src="/javascripts/modal.js"></script>
+    <script src="/javascripts/display-alert.js"></script>
     <script src="/javascripts/update-form.js"></script>
+    <script src="/javascripts/avatar.js"></script>
 </body>
-</html
+</html>

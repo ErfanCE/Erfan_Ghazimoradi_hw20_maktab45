@@ -14,3 +14,50 @@ input, select {
     font-size: 0.9rem;
     color: #888;
 }
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+}
+
+.avatar-panel {
+    background-color: #ccc;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    padding-bottom: 0.5rem;
+    width: 55%;
+    float: left;
+    margin-right: 2rem;
+}
+.avatar-panel > form{
+    display: inline;
+}
+.avatar-panel button {
+    margin-top: 0;
+}
+.avatar-panel > form input {
+    display: inline;
+}
+
+.linker {
+    text-decoration: none;
+    background-color: rgb(255, 145, 0);
+    padding: 1rem 1.5rem;
+    color: #fff;
+    border-radius: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 0.98rem;
+}
+
+
+.file-error {
+    width: 100%;
+    color: hsl(0, 100%, 50%);
+    font-size: 0.9rem;
+    font-weight: normal;
+    margin-top: 10px;
+    opacity: 0;
+}

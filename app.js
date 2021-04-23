@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const path = require('path');
 const serverPort = process.env.PORT || 8000;
 const serverHost = process.env.HOST;
+const admin = require('./controllers/admin-controller');
 const appRoutes = require('./routes/app-routes');
 
 
@@ -73,6 +74,9 @@ app.use((request, response, next) => {
 
     next();
 });
+
+// create blogger admin
+admin.createAdmin();
 
 // app routes
 app.use('/', appRoutes);

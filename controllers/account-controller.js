@@ -4,33 +4,32 @@ const Blogger = require('../models/blogger-model');
 
 // render profile page
 const profile = (request, response, next) => {
-    const activeBlogger = request.session.blogger;
-
-    Blogger.findById(activeBlogger._id, (err, blogger) => {
+    Blogger.findById(request.session.blogger._id, (err, blogger) => {
         if (err) return console.log(err.message);
 
         response.render(path.join(__dirname, '../', 'views', 'account', 'profile.ejs'), { blogger });
     });
 };
 
+// update blogger profile
 const edit = (request, response, next) => {
-    const activeBlogger = request.session.blogger;
-    
-    Blogger.findByIdAndUpdate(activeBlogger._id, request.body, (err, blogger) => {
+    Blogger.findByIdAndUpdate(request.session.blogger._id, request.body, {new: true}, (err, blogger) => {
         if (err) return console.log(err.message);
 
-        response.send('updated')
+        // update session
+        request.session.blogger = blogger;
+        
+        return response.send('updated');
     });
 };
 
+// delete blogger account
 const remove = (request, response, next) => {
-    const activeBlogger = request.session.blogger;
-    
-    Blogger.findByIdAndDelete(activeBlogger._id, (err, blogger) => {
+    Blogger.findByIdAndDelete(request.session.blogger._id, (err, blogger) => {
         if (err) return console.log(err.message);
 
         response.clearCookie('user_sid');
-        response.send('deleted');
+        return response.send('deleted');
     });
 };
 

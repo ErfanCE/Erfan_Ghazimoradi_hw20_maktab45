@@ -7,5 +7,4 @@ $('.button').click(function () {
 $('.close-btn').click(function () {
     $('#modal-container').addClass('out');
     $('body').removeClass('modal-active');
-    $('#createForm input').val('');
 });
