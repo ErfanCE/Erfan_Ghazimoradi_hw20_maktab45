@@ -1,5 +1,6 @@
 const Blogger = require('../models/blogger-model');
-
+const fs = require('fs');
+const path = require('path');
 
 // create blogger admin 
 const createAdmin = () => {
@@ -15,6 +16,7 @@ const createAdmin = () => {
             username: process.env.ADMIN_USERNAME,
             password: process.env.ADMIN_PASSWORD,
             gender: 'male',
+            avatar: 'default-avatar.png',
             phoneNumber: process.env.ADMIN_PHONE,
             role: 'admin'
         }).save(err => {
@@ -25,5 +27,17 @@ const createAdmin = () => {
     });
 };
 
+const setupDirectories = () => {
+    fs.access(path.join(__dirname, '..', 'public', 'images', 'articles'), err => {
+        if (err) {
+            fs.mkdir(path.join(__dirname, '..', 'public', 'images', 'articles'), err => {
+                if (err) return console.log('Create directories ' + err.message);
 
-module.exports = { createAdmin };
+                return console.log('[+] Directories are created.');
+            });
+        } else return console.log('[+] directories are setup.');
+    })
+};
+
+
+module.exports = { createAdmin, setupDirectories };

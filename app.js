@@ -78,6 +78,9 @@ app.use((request, response, next) => {
 // create blogger admin
 admin.createAdmin();
 
+// setup directories 
+admin.setupDirectories();
+
 // app routes
 app.use('/', appRoutes);
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles Page</title>
+    
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/article.css">
+</head>
+<body>
+
+    <div class="container">
+        <%- include('../views/partial/navigation.ejs') %> 
+
+        <% articles.forEach(article => { %>
+            <ul>
+                <img src="/images/articles/<%= article.picture %> " alt="">
+                <li><b>Title: </b><%= article.title %> </li>
+                <li><b>Description: </b><%= article.description %> </li>
+                <li><b>Author: </b><%= article.blogger %> </li>
+                <li><b>Created at: </b><%= article.createdAt %> </li>
+
+                <a href="articles/<%= article._id %> " class="more">More Detail</a>
+            </ul>
+        <% }) %>
+    </div>
+</body>
+</html>

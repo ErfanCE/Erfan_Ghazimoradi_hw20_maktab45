@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= article.title %> Page</title>
+
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/article-detail.css">
+    <link rel="stylesheet" href="/stylesheets/modal.css">
+</head>
+<body>
+
+    <!-- create article modal -->
+    <div id="modal-container">
+        <div class="modal-background">
+            <div class="modal">
+                <!-- alert -->
+                <button class="close-btn">&#10005;</button>
+
+                <!-- create article -->
+                <%- include('../partial/update-article.ejs') %>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <%- include('../partial/navigation.ejs') %>
+
+            <!-- detail -->
+            <ul class="detail">
+                <img src="/images/articles/<%= article.picture %>" alt="article-picture" width="200px" height="200px">
+                <li><b>Title: </b> <%= article.title  %> </li>
+                <li><b>Description: </b> <%= article.description  %> </li>
+        
+                <h3>Content: </h3>
+                <p><%= article.content %> </p>
+        
+                <% if (blogger && blogger.username === article.blogger) { %>
+                    <button id="two" class="button setButton create-btn">Edit Article</button>
+
+                    <button class="button setButton red" id="removeArticle">remove article</button>
+                <% } %>
+            </ul>
+
+            <% if (blogger && blogger.username === article.blogger) { %>
+                <div class="article-picture">
+                    <form action="/" enctype="multipart/form-data" id="pictureForm">
+                        <input type="file" name="picture" id="picture">
+            
+                        <button type="submit" class="button setButton">change picture</button>
+                    </form>
+            
+                    <!-- <button id="pictureRemove" class="button setButton red">Remove picture</button> -->
+            
+                    <p class="file-error">choosen avatar size must be less than 1MB.</p>
+                </div>
+            <% } %>
+
+
+            <!-- comment -->
+            <div class="comment">
+                <h3>Comment Section: </h3>
+                <div>
+                    comments ...
+                </div>
+        
+                <div>
+                    <form action="">
+                        <textarea name="" id="" rows="5" placeholder="write your opinion respecfully :) "></textarea>
+        
+                        <button type="submit">send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/javascripts/jquery-3.5.1.min.js"></script>
+    <script src="/javascripts/modal.js"></script>
+    <script src="/javascripts/picture.js"></script>
+    <script src="/javascripts/display-alert.js"></script>
+    <script src="/javascripts/update-article.js"></script>
+</body>
+</html>

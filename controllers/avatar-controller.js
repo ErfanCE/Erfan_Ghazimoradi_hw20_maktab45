@@ -9,7 +9,7 @@ const defaultAvatar = 'default-avatar.png';
 // setup avatar storage
 const avatarStorage = multer.diskStorage({
     destination: (request, file, cb) => {
-        cb(null, path.join(__dirname, '../', 'public', 'images', 'avatars'));
+        cb(null, path.join(__dirname, '..', 'public', 'images', 'avatars'));
     },
     filename: (request, file, cb) => {
         cb(null, `${request.session.blogger.username}-${Date.now()}-${file.originalname}`);

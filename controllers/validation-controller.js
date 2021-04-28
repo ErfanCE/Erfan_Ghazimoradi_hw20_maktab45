@@ -1,7 +1,9 @@
-const { check, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const Blogger = require('../models/blogger-model');
+const Article = require('../models/article-model');
 
 const usernameRegex = /^(?=.{1,30}$)(?![.])(?!.*[.]{2})((?=.*[A-Z])|(?=.*[a-z]))[a-zA-Z0-9._]+(?!.*\.$)$/;
+const titleRegex = /^(?=.{1,}$)(?![.])(?!.*[.]{2})((?=.*[A-Z])|(?=.*[a-z]))[a-zA-Z0-9._]+(?!.*\.$)$/;
 const passwordRegex = /^((?=.*\d)|(?=.*\W)|(?=.*_))(?=.*[a-zA-Z]).{8,}$/;
 const phoneRegex = /^(\+98|0)?9\d{9}$/;
 
@@ -9,15 +11,15 @@ const phoneRegex = /^(\+98|0)?9\d{9}$/;
 
 const signup = () => {
     return [
-        check('firstname')
+        body('firstname')
             .notEmpty().withMessage('firstname required.')
             .bail()
             .isLength({max: 30}).withMessage('firstname must be maximum length of 30.'),
-        check('lastname')
+        body('lastname')
             .notEmpty().withMessage('lastname required.')
             .bail()
             .isLength({max: 30}).withMessage('lastname must be maximum length of 30.'),
-        check('username')
+        body('username')
             .custom(requestUsername => {
                 return Blogger.findOne({username: requestUsername}).then(isDuplicate => {
                     if (isDuplicate) return Promise.reject(`username ${requestUsername} is not available, try again.`);
@@ -38,7 +40,7 @@ const signup = () => {
             .matches(/^[a-zA-Z0-9._]+$/).withMessage('username cotain letters, numbers, _ and period.')
             .bail()
             .matches(usernameRegex, 'g').withMessage('invalid username.'),
-        check('password')
+        body('password')
             .notEmpty().withMessage('password required.')
             .bail()
             .isLength({min: 8}).withMessage('password must be at least 8 characters long.')
@@ -46,11 +48,11 @@ const signup = () => {
             .matches(/((?=.*\d)|(?=.*\W)|(?=.*_))(?=.*[a-zA-Z])/, 'g').withMessage('password must be mix of letter, numbers or special characters.')
             .bail()
             .matches(passwordRegex, 'g').withMessage('wrong password pattern.'),
-        check('gender')
+        body('gender')
             .notEmpty().withMessage('gender required.')
             .bail()
             .isIn(['male', 'female', 'unset']).withMessage('invalid gender.'),
-        check('phoneNumber')
+        body('phoneNumber')
             .custom(requestPhoneNumber => {
                 return Blogger.findOne({phoneNumber: requestPhoneNumber}).then(isDuplicate => {
                     if (isDuplicate) return Promise.reject(`Another account is using ${requestPhoneNumber}.`);
@@ -64,15 +66,15 @@ const signup = () => {
 
 const update = () => {
     return [
-        check('firstname')
+        body('firstname')
             .notEmpty().withMessage('firstname required.')
             .bail()
             .isLength({max: 30}).withMessage('firstname must be maximum length of 30.'),
-        check('lastname')
+        body('lastname')
             .notEmpty().withMessage('lastname required.')
             .bail()
             .isLength({max: 30}).withMessage('lastname must be maximum length of 30.'),
-        check('username')
+        body('username')
             .custom((reqUsername, {req})=> {
                 const currentUsername = req.session.blogger.username;
 
@@ -99,11 +101,11 @@ const update = () => {
             .matches(/^[a-zA-Z0-9._]+$/).withMessage('username cotain letters, numbers, _ and period.')
             .bail()
             .matches(usernameRegex, 'g').withMessage('invalid username.'),
-        check('gender')
+        body('gender')
             .notEmpty().withMessage('gender required.')
             .bail()
             .isIn(['male', 'female', 'unset']).withMessage('invalid gender.'),
-        check('phoneNumber')
+        body('phoneNumber')
             .custom((requestPhoneNumber, {req})=> {
                 const currentPhoneNumber = req.session.blogger.phoneNumber;
 
@@ -120,6 +122,7 @@ const update = () => {
             .matches(phoneRegex, 'g').withMessage('invalid phoneNumber.')
     ];
 };
+
 
 const validator = (request, response, next) => {
     const errors = validationResult(request);
@@ -147,4 +150,67 @@ const validator2 = (request, response, next) => {
     response.send(extractedErrors);
 };
 
-module.exports = { signup, update, validator, validator2 };
+const updateArticle = () => {
+    return [
+        body('title')
+            .custom((reqTitle, { req }) => {
+                const currentTitle = req.params.articleTitle;
+                
+                if (reqTitle !== currentTitle) {
+                    return Article.find({$and: [{blogger: req.session.blogger.username}, {title: reqTitle}, {title: {$ne: currentTitle}}]}).then(result => {
+                        if (result.length !== 0) return Promise.reject(`The title ${reqTitle} already exists on this account.`);
+                    });
+                }
+
+                return true;
+            })
+            .notEmpty().withMessage('title required')
+            .bail()
+            .matches(/^(?![.])/).withMessage('title can\'t start with a period.')
+            .bail()
+            .matches(/^(?!.*[.]{2})/).withMessage('title can\'t have more than one period in a row.')
+            .bail()
+            .matches(/.*[^.]$/).withMessage('title can\'t end with a period.')
+            .bail()
+            .matches(/^((?=.*[A-Z])|(?=.*[a-z]))/).withMessage('title must be cotain at least one letter.')
+            .bail()
+            .matches(/^[a-zA-Z0-9._]+$/).withMessage('title cotain letters, numbers, _ and period.')
+            .bail()
+            .matches(titleRegex, 'g').withMessage('invalid title.'),
+        body('description')
+            .notEmpty().withMessage('description required'),
+        body('content')
+            .notEmpty().withMessage('content required')
+    ]
+};
+
+const validator3 = (request, response, next) => {
+    const errors = validationResult(request);
+    const extractedErrors = [];
+
+    if (errors.isEmpty()) return next();
+
+    errors.array().map((err) => extractedErrors.push(err.msg));
+
+    // send error
+    request.flash('update-article', extractedErrors);
+    response.send(extractedErrors);
+};
+
+const testValid = (request) => {
+    const reqBody = request.body;
+
+    const errors = [];
+
+    if (!reqBody.title) errors.push('title required.');
+    else if (!reqBody.title.match(titleRegex)) errors.push('title invalid format');
+
+    if (!reqBody.description) errors.push('description required.');
+
+    if (!reqBody.content) errors.push('content required.');
+
+    return errors;
+};
+
+
+module.exports = { signup, update, validator, validator2, testValid, updateArticle, validator3 };

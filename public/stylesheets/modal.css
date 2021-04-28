@@ -570,7 +570,7 @@ body.modal-active {
     font-weight: normal;
     padding: 0 8px;
     margin-top: 5px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.7rem;
     opacity: 0;
 }
 

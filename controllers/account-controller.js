@@ -7,7 +7,7 @@ const profile = (request, response, next) => {
     Blogger.findById(request.session.blogger._id, (err, blogger) => {
         if (err) return console.log(err.message);
 
-        response.render(path.join(__dirname, '../', 'views', 'account', 'profile.ejs'), { blogger });
+        response.render(path.join(__dirname, '../', 'views', 'account', 'profile-page.ejs'), { blogger });
     });
 };
 
@@ -32,5 +32,6 @@ const remove = (request, response, next) => {
         return response.send('deleted');
     });
 };
+
 
 module.exports = { profile, edit, remove };

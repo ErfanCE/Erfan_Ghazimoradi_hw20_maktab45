@@ -1,7 +1,5 @@
 $(document).ready(function () {
-
-
-    $(avatarForm).on('submit', function(e) {
+    $('#avatarForm').on('submit', function(e) {
         e.preventDefault();
 
         $.ajax({
@@ -55,6 +53,6 @@ function avatarAlertHandler(alert) {
 
     if (alert === 'not-chosen') displayAlert('file', 'Choose your avatar first.');
     else if (alert === 'file-type') displayAlert('file', 'Invalid file type. only jpg, jpeg, png, gif and webp image files are allowed.')
-    else if (alert === 'limit-size') displayAlert('file', 'Chosen avatar size must be less than 1MB.');
-    else if (alert === 'avatar-default') displayAlert('file', 'no avatar set yet.');
+    else if (alert === 'limit-size') displayAlert('file', 'Avatar size must be less than 1MB.');
+    else if (alert === 'avatar-default') displayAlert('file', 'No avatar set yet.');
 }

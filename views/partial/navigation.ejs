@@ -1,0 +1,24 @@
+<div class="profile">
+    <% if (blogger) { %>
+        <div class="info">
+            <img src="/images/avatars/<%= blogger.avatar %> " alt="avatar">
+            <p>welcome <%= blogger.username %></p>
+        </div>
+    <% } else { %>
+        <div class="info">
+            <img src="/images/avatars/default-avatar.png" alt="avatar">
+            <p>Welcome, Join our community for more feature. <a href="/account">Join</a></p>
+        </div>
+    <% } %>
+
+    <nav>
+        <a href="/account">Dashboard</a>
+        <a href="/articles">Articles</a>
+
+        <% if (blogger) { %>
+            <a href="/authentication/logout">Logout</a>
+        <% } else { %>
+            <a href="/authentication/login">Login</a>
+        <% } %>
+    </nav>
+</div>

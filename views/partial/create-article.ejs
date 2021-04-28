@@ -1,0 +1,24 @@
+<form action="/" method="POST" id="createArticle" spellcheck="false" autocomplete="off" enctype="multipart/form-data">
+    <div class="column">
+        <label for="title">Article Title</label>
+        <label for="description">Article Description</label>
+    </div>
+    <div class="column">
+        <input type="text" id="title" name="title">
+        <input type="text" id="description" name="description">
+    </div>
+    <div class="column">
+        <p class="update-error title-error">Title required.</p>
+        <p class="update-error description-error">Description required.</p>
+    </div>
+
+    <label for="content">Article Content</label>
+    <textarea name="content" id="content" rows="12"></textarea>
+    <p class="update-error content-error">content required.</p>
+
+    <label for="content">Article Picture</label>
+    <input type="file" name="picture" id="picture">
+    <p class="update-error picture-error">picture required.</p>
+
+    <button type="submit">Create</button>
+</form>

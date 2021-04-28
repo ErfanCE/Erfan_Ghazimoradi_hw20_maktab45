@@ -11,7 +11,7 @@ const authorized = (request, response, next) => {
     // blogger not authorized
     if (!request.session.blogger) return next();
 
-    return response.redirect('/account');
+    return response.redirect(`/${request.session.blogger.username}`);
 };
 
 
