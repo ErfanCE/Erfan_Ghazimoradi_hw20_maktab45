@@ -32,10 +32,11 @@ $(document).ready(function () {
                         $(`.alter-result`).css("opacity", "1");
                     }, 2000);
                 } else updateAlertHandler(response);
-            },
+            }
         });
     });
 
+    // remove blogger account
     $("#deleteAccount").click(function (e) {
         e.preventDefault();
 
@@ -53,7 +54,7 @@ $(document).ready(function () {
                         $(`.alter-result`).css("opacity", "0");
                     }, 2000);
                 }
-            },
+            }
         });
     });
 });
@@ -70,4 +71,4 @@ function updateAlertHandler(alert) {
         if (err.includes("gender")) displayAlert("gender", err);
         if (err.includes("phoneNumber")) displayAlert("phoneNumber", err);
     });
-}
+};

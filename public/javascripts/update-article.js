@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    // create article
     $('#updateArticle').on('submit', function(e) {
         e.preventDefault();
 
@@ -9,7 +8,7 @@ $(document).ready(function () {
             title: $('#title').val(),
             description: $('#description').val(),
             content: $('#content').val(),
-        }
+        };
 
         $.ajax({
             type: 'PATCH',
@@ -24,7 +23,6 @@ $(document).ready(function () {
     });
 
     $('#removeArticle').on('click', function () {
-
         const currentUrl = window.location.href;
 
         $.ajax({
@@ -34,9 +32,6 @@ $(document).ready(function () {
                 if (response === 'deleted') {
                     location.href = 'http://localhost:8000/account/article';
                 }
-            },
-            error: function (err) {
-                console.log(err);
             }
         });
     });
@@ -52,4 +47,4 @@ function updateArticleAlert(alert) {
         if (err.includes("description")) displayAlert("description", err);
         if (err.includes("content")) displayAlert("content", err);
     });
-}
+};

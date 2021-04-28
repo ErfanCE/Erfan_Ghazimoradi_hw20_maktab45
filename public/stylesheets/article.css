@@ -6,11 +6,9 @@
     outline: none;
 }
 
-
 .container {
     margin: 1rem;
 }
-
 
 form textarea {
     display: block;

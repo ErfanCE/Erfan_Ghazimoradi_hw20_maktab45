@@ -12,6 +12,8 @@
 </head>
 <body>
 
+    <%- include('../partial/auth-navigation.ejs') %> 
+
     <h3>Log In Form</h3>
 
     <!-- Login Form -->
@@ -20,8 +22,6 @@
         <input type="text" name="password" placeholder="Password" autocomplete="off" value="iman2525">
 
         <button type="submit">Log In</button>
-
-        <p>create new account? <a href="/authentication/signup">signup</a></p>
     </form>
 
     <% if (message) { %>

@@ -1,14 +1,16 @@
-const { body, validationResult } = require('express-validator');
 const Blogger = require('../models/blogger-model');
 const Article = require('../models/article-model');
+const { body, validationResult } = require('express-validator');
 
 const usernameRegex = /^(?=.{1,30}$)(?![.])(?!.*[.]{2})((?=.*[A-Z])|(?=.*[a-z]))[a-zA-Z0-9._]+(?!.*\.$)$/;
-const titleRegex = /^(?=.{1,}$)(?![.])(?!.*[.]{2})((?=.*[A-Z])|(?=.*[a-z]))[a-zA-Z0-9._]+(?!.*\.$)$/;
 const passwordRegex = /^((?=.*\d)|(?=.*\W)|(?=.*_))(?=.*[a-zA-Z]).{8,}$/;
+const titleRegex = /^(?=.{1,}$)(?![.])(?!.*[.]{2})((?=.*[A-Z])|(?=.*[a-z]))[a-zA-Z0-9._]+(?!.*\.$)$/;
 const phoneRegex = /^(\+98|0)?9\d{9}$/;
+
 
 // !phonenumber pattern bugs
 
+// signup validation rules
 const signup = () => {
     return [
         body('firstname')
@@ -64,6 +66,7 @@ const signup = () => {
     ];
 };
 
+// update blogger validation rules
 const update = () => {
     return [
         body('firstname')
@@ -123,33 +126,23 @@ const update = () => {
     ];
 };
 
+// create article validation rules
+const testValid = (request) => {
+    const reqBody = request.body;
 
-const validator = (request, response, next) => {
-    const errors = validationResult(request);
-    const extractedErrors = [];
+    const errors = [];
 
-    if (errors.isEmpty()) return next();
+    if (!reqBody.title) errors.push('title required.');
+    else if (!reqBody.title.match(titleRegex)) errors.push('title invalid format');
 
-    errors.array().map((err) => extractedErrors.push(err.msg));
+    if (!reqBody.description) errors.push('description required.');
 
-    // send error
-    request.flash('signup', extractedErrors);
-    return response.redirect('/authentication/signup');
+    if (!reqBody.content) errors.push('content required.');
+
+    return errors;
 };
 
-const validator2 = (request, response, next) => {
-    const errors = validationResult(request);
-    const extractedErrors = [];
-
-    if (errors.isEmpty()) return next();
-
-    errors.array().map((err) => extractedErrors.push(err.msg));
-
-    // send error
-    request.flash('update', extractedErrors);
-    response.send(extractedErrors);
-};
-
+// update article validation rules
 const updateArticle = () => {
     return [
         body('title')
@@ -184,6 +177,36 @@ const updateArticle = () => {
     ]
 };
 
+
+// signup validator
+const validator = (request, response, next) => {
+    const errors = validationResult(request);
+    const extractedErrors = [];
+
+    if (errors.isEmpty()) return next();
+
+    errors.array().map((err) => extractedErrors.push(err.msg));
+
+    // send error
+    request.flash('signup', extractedErrors);
+    return response.redirect('/authentication/signup');
+};
+
+// update blogger validator
+const validator2 = (request, response, next) => {
+    const errors = validationResult(request);
+    const extractedErrors = [];
+
+    if (errors.isEmpty()) return next();
+
+    errors.array().map((err) => extractedErrors.push(err.msg));
+
+    // send error
+    request.flash('update', extractedErrors);
+    response.send(extractedErrors);
+};
+
+// update article validator
 const validator3 = (request, response, next) => {
     const errors = validationResult(request);
     const extractedErrors = [];
@@ -197,20 +220,5 @@ const validator3 = (request, response, next) => {
     response.send(extractedErrors);
 };
 
-const testValid = (request) => {
-    const reqBody = request.body;
 
-    const errors = [];
-
-    if (!reqBody.title) errors.push('title required.');
-    else if (!reqBody.title.match(titleRegex)) errors.push('title invalid format');
-
-    if (!reqBody.description) errors.push('description required.');
-
-    if (!reqBody.content) errors.push('content required.');
-
-    return errors;
-};
-
-
-module.exports = { signup, update, validator, validator2, testValid, updateArticle, validator3 };
+module.exports = { signup, update, updateArticle, testValid, validator, validator2, validator3 };

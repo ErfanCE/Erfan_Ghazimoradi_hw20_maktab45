@@ -11,6 +11,8 @@
     <title>Signup Page</title>
 </head>
 <body>
+    <%- include('../partial/auth-navigation.ejs') %> 
+
     <h3>Sign Up Form</h3>
 
     <!-- Signup Form -->
@@ -28,8 +30,6 @@
         <input type="text" name="phoneNumber" placeholder="Phone Number">
 
         <button type="submit">Sign Up</button>
-		
-        <p>Already have an account? <a href="/authentication/login">login</a></p>
     </form>
 
     <% if (signupResult) { %>

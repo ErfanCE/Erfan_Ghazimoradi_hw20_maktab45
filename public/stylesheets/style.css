@@ -120,3 +120,7 @@ nav > a {
 nav > a:hover {
     background-color: rgb(21, 21, 32);
 }
+
+p.spec-p {
+    margin-top: 3rem;
+}

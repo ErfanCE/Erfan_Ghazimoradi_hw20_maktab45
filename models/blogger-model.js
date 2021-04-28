@@ -1,16 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const usernameRegex = /^(?=.{1,30}$)(?![.])(?!.*[.]{2})((?=.*[A-Z])|(?=.*[a-z]))[a-zA-Z0-9._]+(?!.*\.$)$/;
-const passwordRegex = /^((?=.*\d)|(?=.*\W)|(?=.*_))(?=.*[a-zA-Z]).{8,}$/;
-const phoneRegex = /^(\+98|0)?9\d{9}$/;
-
-
-// primary schema
-const primitiveSchema = {
-    required: true,
-    trim: true
-};
 
 const BloggerSchema = new mongoose.Schema({
     firstname: {
@@ -29,17 +19,11 @@ const BloggerSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        trim: true,
-        validate(value) {
-            if (!value.match(usernameRegex)) throw new Error('invalid username pattern.');
-        }
+        trim: true
     },
     password: {
         type: String,
-        required: true,
-        validate(value) {
-            if (!value.match(passwordRegex)) throw new Error('invalid password pattern.');
-        }
+        required: true
     },
     gender: {
         type: String,
@@ -54,10 +38,7 @@ const BloggerSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        trim: true,
-        validate(value) {
-            if (!value.match(phoneRegex)) throw new Error('invalid phoneNumber pattern.')
-        }
+        trim: true
     },
     createdAt: {
         type: Date,
@@ -69,6 +50,7 @@ const BloggerSchema = new mongoose.Schema({
         default: 'blogger'
     }
 });
+
 
 // encrypt blogger password
 BloggerSchema.pre('save', function(next) {

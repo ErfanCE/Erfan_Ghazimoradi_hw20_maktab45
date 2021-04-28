@@ -1,0 +1,16 @@
+<div class="profile">
+    <div class="info">
+        <p class="spec-p">Welcome to Article Website</p>
+    </div>
+
+    <nav>
+        <a href="/account">Dashboard</a>
+        <a href="/explore">Explore</a>
+
+        <% if (status === 'login') { %>
+            <a href="/authentication/signup">Signup</a>
+        <% } else { %>
+            <a href="/authentication/login">Login</a>
+        <% } %>
+    </nav>
+</div>

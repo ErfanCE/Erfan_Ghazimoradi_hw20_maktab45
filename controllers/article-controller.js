@@ -1,11 +1,9 @@
-const Article = require('../models/article-model');
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
+const Article = require('../models/article-model');
 
 
-// PRIVATE
-
-// render blogger private article page
+// render blogger article page
 const articleDashboard = (request, response, next) => {
 
     Article.find({blogger: request.session.blogger.username}, (err, articles) => {
@@ -18,7 +16,7 @@ const articleDashboard = (request, response, next) => {
     });
 };
 
-
+// find article by title, blogger username
 const articleByTitle = (request, response, next) => {
     Article.findOne({blogger: request.session.blogger.username, title: request.params.articleTitle}, (err, article) => {
         if (err) return console.log('find article by ID: ' + err.message);
@@ -32,6 +30,7 @@ const articleByTitle = (request, response, next) => {
     });
 };
 
+// edit article by title, blogger username
 const articleEdit = (request, response, next) => {
     Article.findOneAndUpdate({blogger: request.session.blogger.username, title: request.params.articleTitle}, request.body, {new: true}, (err, article) => {
         if (err) return console.log('update article: ' + err.message);
@@ -42,6 +41,7 @@ const articleEdit = (request, response, next) => {
     });
 };
 
+// remove article by title, blogger username
 const articleRemove = (request, response, next) => {
     Article.findOneAndDelete({blogger: request.session.blogger.username, title: request.params.articleTitle}, (err, article) => {
         if (err) return console.log('remove article: ' + err.message);
@@ -56,24 +56,5 @@ const articleRemove = (request, response, next) => {
     });
 };
 
-// PUBLIC
 
-const articles = (request, response, next) => {
-    Article.find({}).sort([['createdAt', -1]]).exec((err, articles) => {
-        if (err) return console.log('find articles(PUB) ' + err.messsage);
-
-        response.render(path.join(__dirname, '..', 'views', 'articles-page.ejs'), {
-            blogger: request.session.blogger,
-            articles
-        });
-    });
-};
-
-
-module.exports = {
-    articleDashboard,
-    articleByTitle,
-    articleEdit,
-    articleRemove,
-    articles
-};
+module.exports = { articleDashboard, articleByTitle, articleEdit, articleRemove };

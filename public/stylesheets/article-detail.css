@@ -42,11 +42,10 @@ textarea {
     border-radius: 1.5rem;
 }
 
-.comment > *{
+.comment > * {
     margin-bottom: 0.5rem;
 }
 
-
-.article-picture  * {
+.article-picture * {
     display: inline-block;
 }

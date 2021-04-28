@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const articleRoute = require('./article-route');
+const avatar = require('../controllers/avatar-controller');
 const account = require('../controllers/account-controller');
 const validation = require('../controllers/validation-controller');
-const avatar = require('../controllers/avatar-controller');
-const article = require('../controllers/article-controller');
-const articlePicture = require('../controllers/article-picture-controller');
-const articleRoute = require('./article-route');
 
 
 // blogger profile
@@ -24,6 +22,7 @@ router.put('/avatar', avatar.avatar);
 router.delete('/avatar', avatar.removeAvatar);
 
 
+// blogger article route
 router.use('/article', articleRoute);
 
 

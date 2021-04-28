@@ -1,12 +1,12 @@
-const Blogger = require('../models/blogger-model');
-const multer = require('multer');
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+const Blogger = require('../models/blogger-model');
 
 const defaultAvatar = 'default-avatar.png';
 
 
-// setup avatar storage
+// avatar storage
 const avatarStorage = multer.diskStorage({
     destination: (request, file, cb) => {
         cb(null, path.join(__dirname, '..', 'public', 'images', 'avatars'));
@@ -16,7 +16,7 @@ const avatarStorage = multer.diskStorage({
     }
 });
 
-// file filter
+// avatar file filter
 const avatarFileFilter = (request, file, cb) => {
     if (file.mimetype.match(/^image\/(png|jpe?g|gif|webp)$/i)) cb(null, true);
     else cb(new Error('invalid-file-type'), false);
@@ -31,6 +31,25 @@ const avatarUpload = multer({
         fileSize: 1 * 1024 * 1024
     }
 });
+
+// upload changed avatar
+const avatar = (request, response, next) => {
+    const upload = avatarUpload.single('avatar');
+
+    upload(request, response, (err) => {
+        if (err instanceof multer.MulterError) {
+            if (err.field === 'avatar' && err.code === 'LIMIT_FILE_SIZE') return response.send('limit-size');
+            
+            console.log('multer error: ' + err.message);
+            return response.status(400).send('bad request!');
+        } else if (err) {
+            if (err.message.includes('invalid-file-type')) return response.send('file-type');
+
+            console.log('elseif error: ' + err.message);
+
+        } else changeAvatar(request, response, next);
+    });
+};
 
 // update avatar
 const changeAvatar = (request, response, next) => {
@@ -58,26 +77,7 @@ const changeAvatar = (request, response, next) => {
     });
 };
 
-// upload avatar
-const avatar = (request, response, next) => {
-    const upload = avatarUpload.single('avatar');
-
-    upload(request, response, (err) => {
-        if (err instanceof multer.MulterError) {
-            if (err.field === 'avatar' && err.code === 'LIMIT_FILE_SIZE') return response.send('limit-size');
-            
-            console.log('multer error: ' + err.message);
-            return response.status(400).send('bad request!');
-        } else if (err) {
-            if (err.message.includes('invalid-file-type')) return response.send('file-type');
-
-            console.log('elseif error: ' + err.message);
-
-        } else changeAvatar(request, response, next);
-    });
-};
-
-
+// remove avatar
 const removeAvatar = (request, response, next) => {
     if (request.session.blogger.avatar === defaultAvatar) return response.send('avatar-default')
 

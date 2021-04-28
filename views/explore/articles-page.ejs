@@ -12,17 +12,17 @@
 <body>
 
     <div class="container">
-        <%- include('../views/partial/navigation.ejs') %> 
+        <%- include('../partial/navigation.ejs') %> 
 
         <% articles.forEach(article => { %>
             <ul>
-                <img src="/images/articles/<%= article.picture %> " alt="">
-                <li><b>Title: </b><%= article.title %> </li>
-                <li><b>Description: </b><%= article.description %> </li>
-                <li><b>Author: </b><%= article.blogger %> </li>
-                <li><b>Created at: </b><%= article.createdAt %> </li>
+                <img src="/images/articles/<%= article.picture %>" alt="article-picture">
+                <li><b>Title: </b><%= article.title %></li>
+                <li><b>Description: </b><%= article.description %></li>
+                <li><b>Author: </b><%= article.blogger %></li>
+                <li><b>Created at: </b><%= article.createdAt %></li>
 
-                <a href="articles/<%= article._id %> " class="more">More Detail</a>
+                <a href="explore/<%= article.blogger %>/<%= article.title %>" class="more">More Detail</a>
             </ul>
         <% }) %>
     </div>

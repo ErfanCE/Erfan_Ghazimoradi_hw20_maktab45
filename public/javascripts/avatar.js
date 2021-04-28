@@ -46,7 +46,6 @@ $(document).ready(function () {
 });
 
 
-
 function avatarAlertHandler(alert) {
     // reset errors
     $('.file-error').css('opacity', '0');

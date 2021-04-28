@@ -2,15 +2,15 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const config = dotenv.config();
+const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
-const path = require('path');
 const serverPort = process.env.PORT || 8000;
 const serverHost = process.env.HOST;
-const admin = require('./controllers/admin-controller');
 const appRoutes = require('./routes/app-routes');
+const admin = require('./controllers/admin-controller');
 
 
 // dotenv config error handling

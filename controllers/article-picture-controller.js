@@ -1,9 +1,11 @@
-const multer = require('multer');
+const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
 const Article = require('../models/article-model');
 const validation = require('../controllers/validation-controller');
-const fs = require('fs');
 
+
+// article picture storage
 const articlePictureStorage = multer.diskStorage({
     destination: (request, file, cb) => {
         cb(null, path.join(__dirname, '..', 'public', 'images', 'articles'))
@@ -15,13 +17,13 @@ const articlePictureStorage = multer.diskStorage({
     }
 });
 
-
+// article picture file filter
 const articlePictureFileFilter = (request, file, cb) => {
     if (file.mimetype.match(/^image\/(png|jpe?g|webp)$/i)) cb(null, true);
     else cb(new Error('invalid-file-type'), false);
 };
 
-
+// setup article picture upload
 const articlePictureUpload = multer({
     storage: articlePictureStorage,
     fileFilter: articlePictureFileFilter,
@@ -32,7 +34,7 @@ const articlePictureUpload = multer({
 });
 
 
-
+// upload article creation picture
 const articlePicture = (request, response, next) => {
     const upload = articlePictureUpload.single('picture');
     const errors = [];
@@ -77,7 +79,7 @@ const articlePicture = (request, response, next) => {
     });
 };
 
-// update article picture
+// change article picture
 const changePicture = (request, response, next) => {
     const upload = articlePictureUpload.single('picture');
 
@@ -107,7 +109,6 @@ const changePicture = (request, response, next) => {
         }
     });
 };
-
 
 
 module.exports = { articlePicture, changePicture };

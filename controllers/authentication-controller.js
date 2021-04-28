@@ -5,7 +5,10 @@ const Blogger = require('../models/blogger-model');
 
 // render signup page
 const signupPage = (request, response, next) => {
-    response.render(path.join(__dirname, '../', 'views', 'authentication', 'signup-page.ejs'), {signupResult: request.flash('signup')});
+    response.render(path.join(__dirname, '../', 'views', 'authentication', 'signup-page.ejs'), {
+        signupResult: request.flash('signup'),
+        status: 'signup'
+    });
 };
 
 // signup blogger
@@ -27,7 +30,10 @@ const signup = (request, response, next) => {
 
 // render login page
 const loginPage = (request, response, next) => {
-    response.render(path.join(__dirname, '../', 'views', 'authentication', 'login-page.ejs'), {message: request.flash('info')});
+    response.render(path.join(__dirname, '../', 'views', 'authentication', 'login-page.ejs'), {
+        message: request.flash('info'),
+        status: 'login'
+    });
 };
 
 // login blogger
@@ -64,7 +70,7 @@ const login = (request, response, next) => {
 // logout blogger
 const logout = (request, response, next) => {
     response.clearCookie('user_sid');
-    response.redirect('/authentication/login');
+    response.redirect('/');
 };
 
 

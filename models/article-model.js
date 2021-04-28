@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const validation = require('../controllers/validation-controller');
 
 
 const ArticleSchema = new mongoose.Schema({

@@ -1,6 +1,7 @@
-const Blogger = require('../models/blogger-model');
 const fs = require('fs');
 const path = require('path');
+const Blogger = require('../models/blogger-model');
+
 
 // create blogger admin 
 const createAdmin = () => {
@@ -27,6 +28,7 @@ const createAdmin = () => {
     });
 };
 
+// setup directories
 const setupDirectories = () => {
     fs.access(path.join(__dirname, '..', 'public', 'images', 'articles'), err => {
         if (err) {

@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    // create article
     $('#createArticle').on('submit', function(e) {
         e.preventDefault();
 
@@ -41,4 +40,4 @@ function createArticleAlert(alert) {
         if (err.includes("content")) displayAlert("content", err);
         if (err.includes("picture")) displayAlert("picture", err);
     });
-}
+};
